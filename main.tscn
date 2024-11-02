@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://desrpjm8u2335"]
+[gd_scene load_steps=10 format=3 uid="uid://desrpjm8u2335"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_0ax64"]
 [ext_resource type="Script" path="res://scripts/ai_controller_2d.gd" id="2_qj1il"]
+[ext_resource type="Script" path="res://addons/addons/godot_rl_agents/sync.gd" id="3_pb5bb"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="3_w8w50"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ch85w"]
 size = Vector2(55, 50)
@@ -9,22 +11,28 @@ size = Vector2(55, 50)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2of56"]
 size = Vector2(20, 10.7143)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0y8rl"]
+size = Vector2(41, 800.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2mjya"]
 size = Vector2(72, 76)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0y8rl"]
-size = Vector2(41, 342)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_if10h"]
+size = Vector2(57, 58)
 
 [node name="Main" type="Node2D"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Agent" type="CharacterBody2D" parent="."]
 position = Vector2(-30, -11)
 script = ExtResource("1_0ax64")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="ChangeQuad" type="Timer" parent="Agent"]
+wait_time = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Agent"]
 shape = SubResource("RectangleShape2D_ch85w")
 
-[node name="AIController2D" type="Node2D" parent="CharacterBody2D"]
+[node name="AIController2D" type="Node2D" parent="Agent"]
 script = ExtResource("2_qj1il")
 control_mode = null
 onnx_model_path = null
@@ -33,18 +41,32 @@ expert_demo_save_path = null
 action_repeat = null
 policy_name = null
 
-[node name="ColorRect" type="ColorRect" parent="CharacterBody2D"]
+[node name="ColorRect" type="ColorRect" parent="Agent"]
 offset_left = -20.0
 offset_top = -19.0
 offset_right = 20.0
 offset_bottom = 21.0
+metadata/_edit_use_anchors_ = true
+
+[node name="LOS" type="Area2D" parent="Agent"]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Agent/LOS"]
+position = Vector2(39, 15)
+polygon = PackedVector2Array(-13, -27, 60, -61, 161, -64, 161, -18, 162, 23, 61, 22, -14, -10, -14, -10)
+
+[node name="ColorRect" type="ColorRect" parent="Agent/LOS"]
+offset_left = 25.0
+offset_top = -19.0
+offset_right = 203.0
+offset_bottom = 21.0
+color = Color(0.90331, 0.631865, 0.504319, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(0, 29)
+position = Vector2(0, 321)
 scale = Vector2(100, 14)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(0, 4.64286)
+position = Vector2(-0.02, 4.71429)
 scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_2of56")
 
@@ -53,13 +75,30 @@ offset_left = -10.0
 offset_right = 10.0
 offset_bottom = 12.0
 
-[node name="Target" type="Area2D" parent="."]
+[node name="Wall" type="Area2D" parent="."]
+position = Vector2(-558, -153)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2(0, 80.75)
+shape = SubResource("RectangleShape2D_0y8rl")
+
+[node name="Wall2" type="Area2D" parent="."]
+position = Vector2(554, -153)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+position = Vector2(0, 148.5)
+shape = SubResource("RectangleShape2D_0y8rl")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("3_w8w50")
+
+[node name="Target" type="Area2D" parent="Player"]
 position = Vector2(470, -29)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Target"]
 shape = SubResource("RectangleShape2D_2mjya")
 
-[node name="ColorRect" type="ColorRect" parent="Target"]
+[node name="ColorRect" type="ColorRect" parent="Player/Target"]
 offset_left = -20.0
 offset_top = -17.0
 offset_right = 20.0
@@ -67,18 +106,74 @@ offset_bottom = 23.0
 color = Color(0.372549, 1, 0.564706, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Wall" type="Area2D" parent="."]
-position = Vector2(-558, -153)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(470.5, -26)
+shape = SubResource("RectangleShape2D_if10h")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-shape = SubResource("RectangleShape2D_0y8rl")
+[node name="Floor2" type="StaticBody2D" parent="."]
+position = Vector2(0, -492)
+scale = Vector2(100, 14)
 
-[node name="Wall2" type="Area2D" parent="."]
-position = Vector2(554, -153)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2"]
+position = Vector2(0, 4.64286)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_2of56")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-shape = SubResource("RectangleShape2D_0y8rl")
+[node name="ColorRect" type="ColorRect" parent="Floor2"]
+offset_left = -10.0
+offset_right = 10.0
+offset_bottom = 12.0
 
-[connection signal="body_entered" from="Target" to="CharacterBody2D" method="_on_target_body_entered"]
-[connection signal="body_entered" from="Wall" to="CharacterBody2D" method="_on_wall_body_entered"]
-[connection signal="body_entered" from="Wall2" to="CharacterBody2D" method="_on_wall_body_entered"]
+[node name="Quad3" type="Marker2D" parent="."]
+position = Vector2(-275, 186)
+
+[node name="ColorRect" type="ColorRect" parent="Quad3"]
+offset_left = -18.0
+offset_top = -17.0
+offset_right = 22.0
+offset_bottom = 23.0
+color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="Quad2" type="Marker2D" parent="."]
+position = Vector2(297, 164)
+
+[node name="ColorRect" type="ColorRect" parent="Quad2"]
+offset_left = -18.0
+offset_top = -17.0
+offset_right = 22.0
+offset_bottom = 23.0
+color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="Quad0" type="Marker2D" parent="."]
+position = Vector2(305, -178)
+
+[node name="ColorRect" type="ColorRect" parent="Quad0"]
+offset_left = -18.0
+offset_top = -17.0
+offset_right = 22.0
+offset_bottom = 23.0
+color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="Quad1" type="Marker2D" parent="."]
+position = Vector2(-275, -178)
+
+[node name="ColorRect" type="ColorRect" parent="Quad1"]
+offset_left = -18.0
+offset_top = -17.0
+offset_right = 22.0
+offset_bottom = 23.0
+color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("3_pb5bb")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="timeout" from="Agent/ChangeQuad" to="Agent" method="_on_change_quad_timeout"]
+[connection signal="body_entered" from="Agent/LOS" to="Agent" method="_on_los_body_entered"]
+[connection signal="body_exited" from="Agent/LOS" to="Agent" method="_on_los_body_exited"]
+[connection signal="body_entered" from="Wall" to="Agent" method="_on_wall_body_entered"]
+[connection signal="body_entered" from="Wall" to="Player" method="_on_wall_body_entered"]
+[connection signal="body_entered" from="Wall2" to="Agent" method="_on_wall_body_entered"]
+[connection signal="body_entered" from="Wall2" to="Player" method="_on_wall_body_entered"]
+[connection signal="body_entered" from="Player/Target" to="Agent" method="_on_target_body_entered"]
