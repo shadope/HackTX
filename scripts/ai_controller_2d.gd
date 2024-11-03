@@ -34,10 +34,10 @@ func get_action_space() -> Dictionary:
 	return {
 		"move": {"size": 2, "action_type": "continuous"},
 		"turn": {"size": 1, "action_type": "continuous"},
-		"quad": {"size": 1, "action_type": "continuous"}
+		"quad": {"size": 1, "action_type": "continuous"},
+		"search": {"size":1, "action_type": "discrete"}
 		#"example_actions_discrete": {"size": 2, "action_type": "discrete"},
 	}
-
 
 func set_action(action) -> void:
 	move.x = action["move"][0]
@@ -52,5 +52,8 @@ func set_action(action) -> void:
 		quadrant = 2
 	else:
 		quadrant = 3
+	
+	if action["search"] == 1.0:
+		get_tree().current_scene.get_node("Agent").emit_signal("start_spot_search")
 
 	#assert(false, "the set_action method is not implemented when extending from ai_controller")

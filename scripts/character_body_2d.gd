@@ -9,8 +9,12 @@ var follow_position
 var direction
 var search_quad
 var moving_to_quad = false
+var moving_to_spot = false
 var tgt_quad_name = ""
 var tgt_quad
+var tgt_spot
+
+var closet_spot
 
 @export var friction = 0.18
 @onready var ai_controller: Node2D = $AIController2D
@@ -18,8 +22,19 @@ var tgt_quad
 @onready var quad_timer: Timer = $ChangeQuad
 @onready var player: CharacterBody2D = $"../Player"
 
+#signals
+signal spot_searched(val)
+signal spot_near(spot)
+signal spot_left(spot)
+signal start_spot_search()
+
+
 func _ready():
 	quad_timer.start()
+	spot_searched.connect(_on_spot_searched)
+	spot_near.connect(_on_spot_area_entered)
+	spot_left.connect(_on_spot_left)
+	start_spot_search.connect(_on_start_spot_search)
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -50,7 +65,15 @@ func _physics_process(delta):
 		direction = tgt_quad.position - position
 		if direction.length() < 1.0:
 			moving_to_quad = false
+	elif moving_to_spot:
+		direction = tgt_spot.position - position
+		print("tgt: ", tgt_spot, " closest: ",closet_spot)
+		if closet_spot == tgt_spot:
+			moving_to_spot = false
+			print("reached spot, starting to search")
+			closet_spot.search()	
 	else:
+		#we are in a quad and have not seen player, launch search behavior
 		direction = ai_controller.move
 		#print("Rotating: ", ai_controller.turn_degree)
 		LOS.rotation = ai_controller.turn_degree * 360.0
@@ -119,4 +142,50 @@ func _on_area_2d_area_exited(area):
 		if tgt_quad and tgt_quad.name == area.get_parent().name:
 			moving_to_quad = true
 	pass # Replace with function body.
+
+#has player been found in a spot
+func _on_spot_searched(player_found : bool) -> void:
+	if player_found:
+		ai_controller.reward +=5
+	else:
+		ai_controller.reward -=1 
+	moving_to_spot = false
+		
+func _on_spot_area_entered(body) -> void:
+	#we have entered a spots area, potential issue if two spots overlap
+	print("setting spot")
+	closet_spot = body
 	
+func _on_spot_left(body) -> void:
+	#does == work here?
+	if closet_spot == body:
+		closet_spot = null
+		
+func _on_start_spot_search() -> void:
+	#for right now just get the nearest hiding spot in a quad and go there
+	if tgt_quad:
+		var cur_closet_spot
+		var distance
+		var cur_distance
+		var spots_in_quad = []
+		#get all the spots in our cur quad
+		
+		for spot in get_tree().get_nodes_in_group("hiding_spots"):
+			if spot.quad.name == tgt_quad.name:	
+				spots_in_quad.append(spot)
+		
+		if spots_in_quad.size() < 1:
+			return
+		cur_closet_spot = spots_in_quad[0]
+		cur_distance = position.distance_to(cur_closet_spot.global_position)
+		
+		for spot in spots_in_quad:
+			distance =  position.distance_to(spot.global_position) 
+			if distance < cur_distance:
+				cur_distance = distance
+				cur_closet_spot = spot
+				
+		tgt_spot = cur_closet_spot
+		moving_to_spot = true
+		print("start spot search")
+		

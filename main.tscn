@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="3_w8w50"]
 [ext_resource type="Script" path="res://player_ai_controller.gd" id="4_vkrbf"]
 [ext_resource type="Texture2D" uid="uid://cfdsfvqnev354" path="res://assets/Player.png" id="6_0w6eu"]
-[ext_resource type="PackedScene" uid="uid://doudjiiex3k7d" path="res://hidingSpots.tscn" id="6_qj8vd"]
+[ext_resource type="PackedScene" uid="uid://bqadd3sorfe21" path="res://hidingSpots.tscn" id="6_qj8vd"]
 [ext_resource type="Texture2D" uid="uid://cohe1cj8dmhls" path="res://assets/Machine3.png" id="7_bsup6"]
 [ext_resource type="Texture2D" uid="uid://b3f2snxqphjn2" path="res://assets/Machine1.png" id="8_hx4y8"]
 [ext_resource type="Texture2D" uid="uid://bu6ywg0172s4i" path="res://assets/Machine0.png" id="9_rwy2n"]
@@ -221,9 +221,6 @@ offset_right = -153.0
 offset_bottom = 39.0
 color = Color(0.623529, 0.572549, 1, 1)
 
-[node name="HidingSpots" parent="." instance=ExtResource("6_qj8vd")]
-position = Vector2(291, 70)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Sync" type="Node" parent="."]
@@ -239,13 +236,16 @@ texture = ExtResource("8_hx4y8")
 flip_h = true
 
 [node name="Machine0" type="Sprite2D" parent="."]
-position = Vector2(441, 177)
+position = Vector2(435, 109)
 texture = ExtResource("9_rwy2n")
 
 [node name="Machine4" type="Sprite2D" parent="."]
 position = Vector2(-732, 130)
 texture = ExtResource("10_buurn")
 flip_h = true
+
+[node name="HidingSpots2" parent="." instance=ExtResource("6_qj8vd")]
+position = Vector2(-389, -207)
 
 [connection signal="timeout" from="Agent/ChangeQuad" to="Agent" method="_on_change_quad_timeout"]
 [connection signal="body_entered" from="Agent/LOS" to="Agent" method="_on_los_body_entered"]
