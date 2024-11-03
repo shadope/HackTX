@@ -18,6 +18,7 @@ func _ready():
 	hiding_reset.connect(_on_reset)
 	bar.value = 0.0
 	bar.max_value = timer.wait_time
+	self.add_to_group("hiding_spots")
 	#detectArea.connect("body_entered", _on_area_2d_body_entered)
 	#detectArea.connect("body_exited", _on_area_2d_body_exited)
 
