@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://desrpjm8u2335"]
+[gd_scene load_steps=12 format=3 uid="uid://desrpjm8u2335"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_0ax64"]
 [ext_resource type="Script" path="res://scripts/ai_controller_2d.gd" id="2_qj1il"]
 [ext_resource type="Script" path="res://addons/addons/godot_rl_agents/sync.gd" id="3_pb5bb"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="3_w8w50"]
+[ext_resource type="Script" path="res://player_ai_controller.gd" id="4_vkrbf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ch85w"]
 size = Vector2(55, 50)
@@ -20,10 +21,13 @@ size = Vector2(72, 76)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if10h"]
 size = Vector2(57, 58)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0otra"]
+radius = 138.438
+
 [node name="Main" type="Node2D"]
 
 [node name="Agent" type="CharacterBody2D" parent="."]
-position = Vector2(-30, -11)
+position = Vector2(286, -173)
 script = ExtResource("1_0ax64")
 
 [node name="ChangeQuad" type="Timer" parent="Agent"]
@@ -91,9 +95,10 @@ shape = SubResource("RectangleShape2D_0y8rl")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("3_w8w50")
+training = true
 
 [node name="Target" type="Area2D" parent="Player"]
-position = Vector2(470, -29)
+position = Vector2(6, -39)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Target"]
 shape = SubResource("RectangleShape2D_2mjya")
@@ -107,8 +112,17 @@ color = Color(0.372549, 1, 0.564706, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(470.5, -26)
+position = Vector2(6.5, -36)
 shape = SubResource("RectangleShape2D_if10h")
+
+[node name="AIController2D" type="Node2D" parent="Player"]
+script = ExtResource("4_vkrbf")
+
+[node name="DetectionRad" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/DetectionRad"]
+position = Vector2(8, -38)
+shape = SubResource("CircleShape2D_0otra")
 
 [node name="Floor2" type="StaticBody2D" parent="."]
 position = Vector2(0, -492)
@@ -177,3 +191,5 @@ script = ExtResource("3_pb5bb")
 [connection signal="body_entered" from="Wall2" to="Agent" method="_on_wall_body_entered"]
 [connection signal="body_entered" from="Wall2" to="Player" method="_on_wall_body_entered"]
 [connection signal="body_entered" from="Player/Target" to="Agent" method="_on_target_body_entered"]
+[connection signal="body_entered" from="Player/Target" to="Player" method="_on_target_body_entered"]
+[connection signal="body_entered" from="Player/DetectionRad" to="Player" method="_on_detection_rad_body_entered"]

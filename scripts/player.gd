@@ -4,33 +4,56 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
+@export var friction = 0.18
+@export var training = false
+@onready var enemy: CharacterBody2D = $"../Agent"
+@onready var ai_controller: Node2D = $AIController2D
 
 func _physics_process(delta):
 	# Add the gravity.
 	# if not is_on_floor():
 	# 	velocity += get_gravity() * delta
 
-	# Handle vertical.
-	if Input.is_action_just_pressed("ui_up"):# and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-	if Input.is_action_just_pressed("ui_down"):# and is_on_floor():
-		velocity.y = -JUMP_VELOCITY
-	if Input.is_action_just_released("ui_up") or Input.is_action_just_released("ui_down"):
-		velocity.y = 0
+	if training:
+		var direction = ai_controller.move
+		if direction.length() > 1.0:
+			direction = direction.normalized()
+		# Using the follow steering behavior.
+		var target_velocity = direction * SPEED
+		velocity += (target_velocity - velocity) * friction
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		# Handle vertical.
+		if Input.is_action_just_pressed("ui_up"):# and is_on_floor():
+			velocity.y = JUMP_VELOCITY
+		if Input.is_action_just_pressed("ui_down"):# and is_on_floor():
+			velocity.y = -JUMP_VELOCITY
+		if Input.is_action_just_released("ui_up") or Input.is_action_just_released("ui_down"):
+			velocity.y = 0
+
+		# Get the input direction and handle the movement/deceleration.
+		# As good practice, you should replace UI actions with custom gameplay actions.
+		var direction = Input.get_axis("ui_left", "ui_right")
+		if direction:
+			velocity.x = direction * SPEED
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
 
-
-
-
 func _on_wall_body_entered(body:Node2D):
 	position = Vector2(0, 0)
+	pass # Replace with function body.
+
+func _on_target_body_entered(body:Node2D):
+	if body.name == "Agent":
+		print("Ran into enemy")
+		ai_controller.reward -= 5.0
+	pass # Replace with function body.
+
+
+func _on_detection_rad_body_entered(body:Node2D):
+	if body.name == "Agent":
+		print("Detect enemy")
+		ai_controller.reward -= 1.0
 	pass # Replace with function body.

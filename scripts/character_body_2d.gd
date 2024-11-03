@@ -41,7 +41,7 @@ func _physics_process(delta):
 	#velocity.y = ai_controller.move.y
 	if seen_player:
 		direction = position - player.position
-		print("Going in dir: ", direction)
+		#print("Going in dir: ", direction)
 	else:
 		direction = ai_controller.move
 		#print("Rotating: ", ai_controller.turn_degree)
