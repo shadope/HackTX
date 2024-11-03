@@ -247,6 +247,15 @@ flip_h = true
 [node name="HidingSpots2" parent="." instance=ExtResource("6_qj8vd")]
 position = Vector2(-389, -207)
 
+[node name="HidingSpot" parent="." instance=ExtResource("6_qj8vd")]
+position = Vector2(-447, 100)
+
+[node name="HidingSpot2" parent="." instance=ExtResource("6_qj8vd")]
+position = Vector2(489, -210)
+
+[node name="HidingSpot3" parent="." instance=ExtResource("6_qj8vd")]
+position = Vector2(684, 180)
+
 [connection signal="timeout" from="Agent/ChangeQuad" to="Agent" method="_on_change_quad_timeout"]
 [connection signal="body_entered" from="Agent/LOS" to="Agent" method="_on_los_body_entered"]
 [connection signal="body_exited" from="Agent/LOS" to="Agent" method="_on_los_body_exited"]

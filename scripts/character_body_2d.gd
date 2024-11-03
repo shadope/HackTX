@@ -67,10 +67,8 @@ func _physics_process(delta):
 			moving_to_quad = false
 	elif moving_to_spot:
 		direction = tgt_spot.position - position
-		print("tgt: ", tgt_spot, " closest: ",closet_spot)
 		if closet_spot == tgt_spot:
 			moving_to_spot = false
-			print("reached spot, starting to search")
 			closet_spot.search()	
 	else:
 		#we are in a quad and have not seen player, launch search behavior
@@ -87,10 +85,11 @@ func _physics_process(delta):
 	
 	
 func _on_wall_body_entered(body:Node2D):
-	position = Vector2(0, 0)
-	ai_controller.reward -= 1.0
-	ai_controller.reset()
-	pass # Replace with function body.
+	if !body.is_in_group("hiding_spots"):
+		position = Vector2(0, 0)
+		ai_controller.reward -= 1.0
+		ai_controller.reset()
+		pass # Replace with function body.
 	
 	
 func _on_target_body_entered(body:Node2D):
@@ -153,7 +152,6 @@ func _on_spot_searched(player_found : bool) -> void:
 		
 func _on_spot_area_entered(body) -> void:
 	#we have entered a spots area, potential issue if two spots overlap
-	print("setting spot")
 	closet_spot = body
 	
 func _on_spot_left(body) -> void:
@@ -187,5 +185,4 @@ func _on_start_spot_search() -> void:
 				
 		tgt_spot = cur_closet_spot
 		moving_to_spot = true
-		print("start spot search")
 		

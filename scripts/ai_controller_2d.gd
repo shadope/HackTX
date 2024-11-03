@@ -52,7 +52,6 @@ func set_action(action) -> void:
 		quadrant = 2
 	else:
 		quadrant = 3
-	
 	if action["search"] == 1.0:
 		get_tree().current_scene.get_node("Agent").emit_signal("start_spot_search")
 

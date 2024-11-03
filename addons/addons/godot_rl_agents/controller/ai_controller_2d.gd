@@ -96,8 +96,6 @@ func reset():
 	n_steps = 0
 	needs_reset = false
 	self.get_tree().current_scene.get_node("Player").emit_signal("player_reset")
-	#TODO make this an array in the scene
-	#self.get_tree().current_scene.get_node("HidingSpot").emit_signal("hiding_reset")
 	for spot in self.get_tree().get_nodes_in_group("hiding_spots"):
 		spot.emit_signal("hiding_reset")
 
