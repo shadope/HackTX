@@ -79,13 +79,13 @@ func _on_target_body_entered(body:Node2D):
 	
 func _on_los_body_entered(body:Node2D):
 	if body.name == "Player":
-		print("Detected player")
+		#print("Detected player")
 		ai_controller.reward += 1.0
 		seen_player = true
 		
 func _on_los_body_exited(body:Node2D):
 	if body.name == "Player":
-		print("Lost player")
+		#print("Lost player")
 		ai_controller.reward -= 1.0
 		seen_player = false
 		
@@ -96,6 +96,7 @@ func _on_change_quad_timeout():
 	tgt_quad = get_parent().get_node(tgt_quad_name)
 	#print("I chose to look in quad: ", tgt_quad)
 	direction = tgt_quad.position - position
+	LOS.rotation = acos((tgt_quad.position.dot(position))/(tgt_quad.position.length() * position.length()))
 	moving_to_quad = true
 	print("Tgt name: ", tgt_quad_name)
 	quad_timer.start()
@@ -106,9 +107,9 @@ func _on_area_2d_area_entered(area):
 	#print("My groups: ", area.get_parent().get_groups())
 	if "Quad" in area.get_parent().get_groups():
 		#print("Entering a quad")
-		print("my parent's name is: ", area.get_parent().name)
+		#print("my parent's name is: ", area.get_parent().name)
 		if tgt_quad and tgt_quad.name == area.get_parent().name:
-			print("Entering tgt area")
+			#print("Entering tgt area")
 			moving_to_quad = false
 	pass # Replace with function body.
 	

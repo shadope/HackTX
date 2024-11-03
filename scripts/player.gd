@@ -58,6 +58,7 @@ func _on_target_body_entered(body:Node2D):
 	if body.name == "Agent" and !self.player_hidden:
 		print("Ran into enemy")
 		ai_controller.reward -= 5.0
+		ai_controller.reset()
 	pass # Replace with function body.
 
 

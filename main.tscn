@@ -1,11 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://desrpjm8u2335"]
+[gd_scene load_steps=21 format=3 uid="uid://desrpjm8u2335"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_0ax64"]
 [ext_resource type="Script" path="res://scripts/ai_controller_2d.gd" id="2_qj1il"]
+[ext_resource type="Texture2D" uid="uid://blt7jlhc20wqm" path="res://assets/Enemy.png" id="3_3544i"]
 [ext_resource type="Script" path="res://addons/addons/godot_rl_agents/sync.gd" id="3_pb5bb"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="3_w8w50"]
 [ext_resource type="Script" path="res://player_ai_controller.gd" id="4_vkrbf"]
+[ext_resource type="Texture2D" uid="uid://cfdsfvqnev354" path="res://assets/Player.png" id="6_0w6eu"]
 [ext_resource type="PackedScene" uid="uid://doudjiiex3k7d" path="res://hidingSpots.tscn" id="6_qj8vd"]
+[ext_resource type="Texture2D" uid="uid://cohe1cj8dmhls" path="res://assets/Machine3.png" id="7_bsup6"]
+[ext_resource type="Texture2D" uid="uid://b3f2snxqphjn2" path="res://assets/Machine1.png" id="8_hx4y8"]
+[ext_resource type="Texture2D" uid="uid://bu6ywg0172s4i" path="res://assets/Machine0.png" id="9_rwy2n"]
+[ext_resource type="Texture2D" uid="uid://c7au3xf4nvyxh" path="res://assets/Machine4.png" id="10_buurn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ch85w"]
 size = Vector2(55, 50)
@@ -29,7 +35,7 @@ size = Vector2(57, 58)
 radius = 138.438
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpati"]
-size = Vector2(256, 230)
+size = Vector2(443.25, 253)
 
 [node name="Main" type="Node2D"]
 
@@ -62,14 +68,14 @@ metadata/_edit_use_anchors_ = true
 [node name="LOS" type="Area2D" parent="Agent"]
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Agent/LOS"]
-position = Vector2(39, 15)
-polygon = PackedVector2Array(-13, -27, 60, -61, 161, -64, 161, -18, 162, 23, 61, 22, -14, -10, -14, -10)
+position = Vector2(18, -12)
+polygon = PackedVector2Array(-33, -9, -56, -71, -61, -131, -17, -128, 20, -131, 19, -71, -1, -8)
 
 [node name="ColorRect" type="ColorRect" parent="Agent/LOS"]
-offset_left = 25.0
-offset_top = -19.0
-offset_right = 203.0
-offset_bottom = 21.0
+offset_left = -17.0
+offset_top = -141.0
+offset_right = 19.0
+offset_bottom = -21.0
 color = Color(0.90331, 0.631865, 0.504319, 1)
 
 [node name="Area2D" type="Area2D" parent="Agent"]
@@ -77,6 +83,9 @@ color = Color(0.90331, 0.631865, 0.504319, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Agent/Area2D"]
 position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_o4rhh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Agent"]
+texture = ExtResource("3_3544i")
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 321)
@@ -91,18 +100,18 @@ offset_left = -10.0
 offset_right = 10.0
 offset_bottom = 12.0
 
-[node name="Wall" type="Area2D" parent="."]
+[node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2(-558, -153)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-position = Vector2(0, 80.75)
+position = Vector2(-418, 114)
 shape = SubResource("RectangleShape2D_0y8rl")
 
-[node name="Wall2" type="Area2D" parent="."]
+[node name="Wall2" type="StaticBody2D" parent="."]
 position = Vector2(554, -153)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-position = Vector2(0, 148.5)
+position = Vector2(423, 112)
 shape = SubResource("RectangleShape2D_0y8rl")
 
 [node name="Player" type="CharacterBody2D" parent="."]
@@ -135,6 +144,9 @@ script = ExtResource("4_vkrbf")
 position = Vector2(8, -38)
 shape = SubResource("CircleShape2D_0otra")
 
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("6_0w6eu")
+
 [node name="Floor2" type="StaticBody2D" parent="."]
 position = Vector2(0, -492)
 scale = Vector2(100, 14)
@@ -149,89 +161,103 @@ offset_right = 10.0
 offset_bottom = 12.0
 
 [node name="Quad3" type="Marker2D" parent="." groups=["Quad"]]
-position = Vector2(-275, 186)
-
-[node name="ColorRect" type="ColorRect" parent="Quad3"]
-offset_left = -18.0
-offset_top = -17.0
-offset_right = 22.0
-offset_bottom = 23.0
-color = Color(0.623529, 0.572549, 1, 1)
+position = Vector2(-362, 186)
 
 [node name="Area2D" type="Area2D" parent="Quad3"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Quad3/Area2D"]
-position = Vector2(7, -30.5)
+position = Vector2(-161, -34)
 shape = SubResource("RectangleShape2D_rpati")
 
-[node name="Quad2" type="Marker2D" parent="." groups=["Quad"]]
-position = Vector2(297, 164)
-
-[node name="ColorRect" type="ColorRect" parent="Quad2"]
-offset_left = -18.0
-offset_top = -17.0
-offset_right = 22.0
-offset_bottom = 23.0
+[node name="ColorRect" type="ColorRect" parent="Quad3"]
+offset_left = -179.0
+offset_top = -54.0
+offset_right = -139.0
+offset_bottom = -14.0
 color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="Quad2" type="Marker2D" parent="." groups=["Quad"]]
+position = Vector2(347, 164)
 
 [node name="Area2D" type="Area2D" parent="Quad2"]
 position = Vector2(-36, 25)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Quad2/Area2D"]
-position = Vector2(7, -30.5)
+position = Vector2(274, -39)
 shape = SubResource("RectangleShape2D_rpati")
 
-[node name="Quad0" type="Marker2D" parent="." groups=["Quad"]]
-position = Vector2(305, -178)
-
-[node name="ColorRect" type="ColorRect" parent="Quad0"]
-offset_left = -18.0
-offset_top = -17.0
-offset_right = 22.0
-offset_bottom = 23.0
+[node name="ColorRect" type="ColorRect" parent="Quad2"]
+offset_left = 217.0
+offset_top = -36.0
+offset_right = 257.0
+offset_bottom = 4.0
 color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="Quad0" type="Marker2D" parent="." groups=["Quad"]]
+position = Vector2(330, -178)
 
 [node name="Area2D" type="Area2D" parent="Quad0"]
 position = Vector2(-44, 47)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Quad0/Area2D"]
-position = Vector2(19, -36)
+position = Vector2(290, -33)
 shape = SubResource("RectangleShape2D_rpati")
 
-[node name="Quad1" type="Marker2D" parent="." groups=["Quad"]]
-position = Vector2(-275, -178)
-
-[node name="ColorRect" type="ColorRect" parent="Quad1"]
-offset_left = -18.0
-offset_top = -17.0
-offset_right = 22.0
-offset_bottom = 23.0
+[node name="ColorRect" type="ColorRect" parent="Quad0"]
+offset_left = 227.0
+offset_top = -4.0
+offset_right = 267.0
+offset_bottom = 36.0
 color = Color(0.623529, 0.572549, 1, 1)
 
+[node name="Quad1" type="Marker2D" parent="." groups=["Quad"]]
+position = Vector2(-350, -178)
+
 [node name="Area2D" type="Area2D" parent="Quad1"]
-position = Vector2(0, 45)
+position = Vector2(-169, 19)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Quad1/Area2D"]
-position = Vector2(0, -38)
+position = Vector2(-3.75, 1)
 shape = SubResource("RectangleShape2D_rpati")
+
+[node name="ColorRect" type="ColorRect" parent="Quad1"]
+offset_left = -193.0
+offset_top = -1.0
+offset_right = -153.0
+offset_bottom = 39.0
+color = Color(0.623529, 0.572549, 1, 1)
+
+[node name="HidingSpots" parent="." instance=ExtResource("6_qj8vd")]
+position = Vector2(291, 70)
+
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("3_pb5bb")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Machine3" type="Sprite2D" parent="."]
+position = Vector2(-115, -215)
+texture = ExtResource("7_bsup6")
 
-[node name="HidingSpots" parent="." instance=ExtResource("6_qj8vd")]
-position = Vector2(291, 70)
+[node name="Machine1" type="Sprite2D" parent="."]
+position = Vector2(116, -128)
+texture = ExtResource("8_hx4y8")
+flip_h = true
+
+[node name="Machine0" type="Sprite2D" parent="."]
+position = Vector2(441, 177)
+texture = ExtResource("9_rwy2n")
+
+[node name="Machine4" type="Sprite2D" parent="."]
+position = Vector2(-732, 130)
+texture = ExtResource("10_buurn")
+flip_h = true
 
 [connection signal="timeout" from="Agent/ChangeQuad" to="Agent" method="_on_change_quad_timeout"]
 [connection signal="body_entered" from="Agent/LOS" to="Agent" method="_on_los_body_entered"]
 [connection signal="body_exited" from="Agent/LOS" to="Agent" method="_on_los_body_exited"]
 [connection signal="area_entered" from="Agent/Area2D" to="Agent" method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Agent/Area2D" to="Agent" method="_on_area_2d_area_exited"]
-[connection signal="body_entered" from="Wall" to="Agent" method="_on_wall_body_entered"]
-[connection signal="body_entered" from="Wall" to="Player" method="_on_wall_body_entered"]
-[connection signal="body_entered" from="Wall2" to="Agent" method="_on_wall_body_entered"]
-[connection signal="body_entered" from="Wall2" to="Player" method="_on_wall_body_entered"]
 [connection signal="body_entered" from="Player/Target" to="Agent" method="_on_target_body_entered"]
 [connection signal="body_entered" from="Player/Target" to="Player" method="_on_target_body_entered"]
 [connection signal="body_entered" from="Player/DetectionRad" to="Player" method="_on_detection_rad_body_entered"]
