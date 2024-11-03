@@ -45,12 +45,6 @@ shape = SubResource("RectangleShape2D_ch85w")
 
 [node name="AIController2D" type="Node2D" parent="Agent"]
 script = ExtResource("2_qj1il")
-control_mode = null
-onnx_model_path = null
-reset_after = null
-expert_demo_save_path = null
-action_repeat = null
-policy_name = null
 
 [node name="ColorRect" type="ColorRect" parent="Agent"]
 offset_left = -20.0

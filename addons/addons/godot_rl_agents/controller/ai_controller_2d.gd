@@ -95,7 +95,9 @@ func get_obs_space():
 func reset():
 	n_steps = 0
 	needs_reset = false
-
+	self.get_tree().current_scene.get_node("Player").emit_signal("player_reset")
+	#TODO make this an array in the scene
+	self.get_tree().current_scene.get_node("HidingSpots").emit_signal("hiding_reset")
 
 func reset_if_done():
 	if done:
