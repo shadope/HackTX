@@ -12,7 +12,7 @@ var player_hidden = false
 @onready var ai_controller: Node2D = $AIController2D
 
 #signals
-signal player_hide()
+signal player_hide(val)
 
 func _ready():
 	player_hide.connect(_on_hidden)

@@ -15,8 +15,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("hide") and hideLabel.visible:
-		self.get_parent().emit_signal("player_hide", true)
-
+		print("pressing E")
+		self.get_parent().get_node("Player").emit_signal("player_hide", true)
+		
 
 #make it so that when player presses e over a hinding spot it goes into it
 func _on_area_2d_body_entered(body:Node2D):
