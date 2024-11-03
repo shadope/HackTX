@@ -6,54 +6,55 @@
 [node name="BatchEnvs" type="Node"]
 
 [node name="Main" parent="." instance=ExtResource("1_re0xj")]
+position = Vector2(96, -566)
 
 [node name="Main3" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(2233, 646)
+position = Vector2(2297, 468)
 
 [node name="Main4" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(2200, -3)
+position = Vector2(2296, -569)
 
 [node name="Main5" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(13, 666)
+position = Vector2(77, 488)
 
 [node name="Main2" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(62, 1321)
+position = Vector2(116, 1546)
 
 [node name="Main6" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(2295, 1967)
+position = Vector2(2331, 2564)
 
 [node name="Main7" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(2262, 1318)
+position = Vector2(2316, 1543)
 
 [node name="Main8" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(75, 1987)
+position = Vector2(111, 2584)
 
 [node name="Main9" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(4433, -21)
+position = Vector2(4529, -587)
 
 [node name="Main10" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(6666, 625)
+position = Vector2(6730, 447)
 
 [node name="Main11" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(6633, -24)
+position = Vector2(6729, -590)
 
 [node name="Main12" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(4446, 645)
+position = Vector2(4510, 467)
 
 [node name="Main13" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(4495, 1300)
+position = Vector2(4549, 1525)
 
 [node name="Main14" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(6728, 1946)
+position = Vector2(6764, 2543)
 
 [node name="Main15" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(6695, 1297)
+position = Vector2(6749, 1522)
 
 [node name="Main16" parent="." instance=ExtResource("1_re0xj")]
-position = Vector2(4508, 1966)
+position = Vector2(4544, 2563)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(3388, 910)
+position = Vector2(3442, 1063)
 zoom = Vector2(0.15, 0.15)
 
 [node name="Sync" type="Node" parent="."]
