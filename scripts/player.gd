@@ -13,10 +13,12 @@ const JUMP_VELOCITY = -400.0
 #signals
 signal player_hide(val)
 signal player_reset()
+signal get_reward()
 
 func _ready():
 	player_hide.connect(_on_hidden)
 	player_reset.connect(_on_reset)
+	get_reward.connect(_on_reward)
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -57,7 +59,7 @@ func _on_wall_body_entered(body:Node2D):
 
 func _on_target_body_entered(body:Node2D):
 	if body.name == "Agent" and self.visible:
-		print("Ran into enemy")
+		#print("Ran into enemy")
 		ai_controller.reward -= 5.0
 		ai_controller.reset()
 	pass # Replace with function body.
@@ -65,7 +67,7 @@ func _on_target_body_entered(body:Node2D):
 
 func _on_detection_rad_body_entered(body:Node2D):
 	if body.name == "Agent" and self.visible:
-		print("Detect enemy")
+		#print("Detect enemy")
 		ai_controller.reward -= 1.0
 	pass # Replace with function body.
 
@@ -79,3 +81,7 @@ func _on_hidden(val : bool):
 		
 func _on_reset() -> void:
 	self.visible = true
+	
+func _on_reward():
+	print("Got a reward!")
+	ai_controller.reward += 1.0

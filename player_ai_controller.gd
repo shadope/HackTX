@@ -2,12 +2,13 @@ extends AIController2D
 
 
 @onready var player: CharacterBody2D = $".."
-@onready var target: CharacterBody2D = $"../../Agent"
+@onready var target: Node2D = $"../../Reward"
 
 var move: Vector2 = Vector2.ZERO
 
 #-- Methods that need implementing using the "extend script" option in Godot --#
 func get_obs() -> Dictionary:
+	target = $"../../Reward"
 	var obs := [
 		player.position.x,
 		player.position.y,

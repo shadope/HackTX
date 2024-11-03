@@ -45,8 +45,10 @@ func _physics_process(delta):
 	
 	if seen_player:
 		direction = player.position - position
+		print("Rotating: ", LOS.rotation)
 		#print("Going in dir: ", direction)
 	elif moving_to_quad:
+		LOS.look_at(tgt_quad.position) #acos((player.position.dot(position))/(player.position.length() * position.length()))
 		direction = tgt_quad.position - position
 		if direction.length() < 1.0:
 			moving_to_quad = false
@@ -71,15 +73,17 @@ func _on_wall_body_entered(body:Node2D):
 	
 	
 func _on_target_body_entered(body:Node2D):
-	print("Reward")
-	position = Vector2(0, 0)
-	ai_controller.reward += 1.0
+	if body.name == "Agent":
+		print("Reward")
+		position = Vector2(0, 0)
+		ai_controller.reward += 1.0
 	pass # Replace with function body.
 	
 	
 func _on_los_body_entered(body:Node2D):
 	if body.name == "Player":
-		#print("Detected player")
+		print("Detected player")
+		#LOS.look_at(player.position) #acos((player.position.dot(position))/(player.position.length() * position.length()))
 		ai_controller.reward += 1.0
 		seen_player = true
 		

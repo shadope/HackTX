@@ -1,13 +1,15 @@
-[gd_scene load_steps=21 format=3 uid="uid://desrpjm8u2335"]
+[gd_scene load_steps=23 format=3 uid="uid://desrpjm8u2335"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_0ax64"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_ospv0"]
+[ext_resource type="PackedScene" uid="uid://be5la20q685l6" path="res://reward.tscn" id="2_dn1wb"]
 [ext_resource type="Script" path="res://scripts/ai_controller_2d.gd" id="2_qj1il"]
 [ext_resource type="Texture2D" uid="uid://blt7jlhc20wqm" path="res://assets/Enemy.png" id="3_3544i"]
 [ext_resource type="Script" path="res://addons/addons/godot_rl_agents/sync.gd" id="3_pb5bb"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="3_w8w50"]
 [ext_resource type="Script" path="res://player_ai_controller.gd" id="4_vkrbf"]
 [ext_resource type="Texture2D" uid="uid://cfdsfvqnev354" path="res://assets/Player.png" id="6_0w6eu"]
-[ext_resource type="PackedScene" uid="uid://doudjiiex3k7d" path="res://hidingSpots.tscn" id="6_qj8vd"]
+[ext_resource type="PackedScene" uid="uid://bqadd3sorfe21" path="res://hidingSpots.tscn" id="6_qj8vd"]
 [ext_resource type="Texture2D" uid="uid://cohe1cj8dmhls" path="res://assets/Machine3.png" id="7_bsup6"]
 [ext_resource type="Texture2D" uid="uid://b3f2snxqphjn2" path="res://assets/Machine1.png" id="8_hx4y8"]
 [ext_resource type="Texture2D" uid="uid://bu6ywg0172s4i" path="res://assets/Machine0.png" id="9_rwy2n"]
@@ -38,6 +40,8 @@ radius = 138.438
 size = Vector2(443.25, 253)
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_ospv0")
+rewardInstance = ExtResource("2_dn1wb")
 
 [node name="Agent" type="CharacterBody2D" parent="."]
 position = Vector2(286, -173)
@@ -79,6 +83,8 @@ position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_o4rhh")
 
 [node name="Sprite2D" type="Sprite2D" parent="Agent"]
+position = Vector2(3.99999, 4.00001)
+scale = Vector2(0.405, 0.405)
 texture = ExtResource("3_3544i")
 
 [node name="Floor" type="StaticBody2D" parent="."]
@@ -110,6 +116,7 @@ shape = SubResource("RectangleShape2D_0y8rl")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("3_w8w50")
+training = true
 
 [node name="Target" type="Area2D" parent="Player"]
 position = Vector2(6, -39)
@@ -139,6 +146,8 @@ position = Vector2(8, -38)
 shape = SubResource("CircleShape2D_0otra")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
+position = Vector2(10, -39)
+scale = Vector2(0.52, 0.52)
 texture = ExtResource("6_0w6eu")
 
 [node name="Floor2" type="StaticBody2D" parent="."]
@@ -246,6 +255,9 @@ texture = ExtResource("9_rwy2n")
 position = Vector2(-732, 130)
 texture = ExtResource("10_buurn")
 flip_h = true
+
+[node name="Reward" parent="." instance=ExtResource("2_dn1wb")]
+position = Vector2(5, -24)
 
 [connection signal="timeout" from="Agent/ChangeQuad" to="Agent" method="_on_change_quad_timeout"]
 [connection signal="body_entered" from="Agent/LOS" to="Agent" method="_on_los_body_entered"]

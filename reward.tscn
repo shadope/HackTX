@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://be5la20q685l6"]
+
+[ext_resource type="Script" path="res://scripts/reward.gd" id="1_qdnke"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0w0v5"]
+
+[node name="Reward" type="Node2D"]
+script = ExtResource("1_qdnke")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_0w0v5")
+
+[node name="ColorRect" type="ColorRect" parent="Area2D"]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0.919383, 0.836638, 0.202748, 1)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
