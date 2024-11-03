@@ -8,16 +8,34 @@ var move: Vector2 = Vector2.ZERO
 
 #-- Methods that need implementing using the "extend script" option in Godot --#
 func get_obs() -> Dictionary:
-	target = $"../../Reward"
+	# Code from ball chase example by edbeeching
+	var relative = to_local(target.global_position)
+	var distance = relative.length() / 1500.0
+	relative = relative.normalized()
+	var result := []
+	result.append(((position.x / 50) - 0.5) * 2)
+	result.append(((position.y / 50) - 0.5) * 2)
+	result.append(relative.x)
+	result.append(relative.y)
+	result.append(distance)
+	#var raycast_obs = player.raycast_sensor.get_observation()
+	#result.append_array(raycast_obs)
+	
 	var obs := [
 		player.position.x,
 		player.position.y,
 		target.position.x,
-		target.position.y
+		target.position.y,
 	]
-
-	#assert(false, "the get_obs method is not implemented when extending from ai_controller")
-	return {"obs": obs}
+	
+	return {
+		"obs": result,
+	}
+	
+	
+#
+	##assert(false, "the get_obs method is not implemented when extending from ai_controller")
+	#return {"obs": obs}
 
 
 func get_reward() -> float:

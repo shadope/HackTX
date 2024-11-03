@@ -55,7 +55,7 @@ position = Vector2(4544, 2563)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(3442, 1063)
-zoom = Vector2(0.15, 0.15)
+zoom = Vector2(0.25, 0.25)
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("2_gol4q")

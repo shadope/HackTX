@@ -1,13 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://desrpjm8u2335"]
+[gd_scene load_steps=22 format=3 uid="uid://desrpjm8u2335"]
 
 [ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_0ax64"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ospv0"]
 [ext_resource type="PackedScene" uid="uid://be5la20q685l6" path="res://reward.tscn" id="2_dn1wb"]
 [ext_resource type="Script" path="res://scripts/ai_controller_2d.gd" id="2_qj1il"]
 [ext_resource type="Texture2D" uid="uid://blt7jlhc20wqm" path="res://assets/Enemy.png" id="3_3544i"]
-[ext_resource type="Script" path="res://addons/addons/godot_rl_agents/sync.gd" id="3_pb5bb"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="3_w8w50"]
-[ext_resource type="Script" path="res://player_ai_controller.gd" id="4_vkrbf"]
+[ext_resource type="Script" path="res://scripts/player_ai_controller.gd" id="4_vkrbf"]
 [ext_resource type="Texture2D" uid="uid://cfdsfvqnev354" path="res://assets/Player.png" id="6_0w6eu"]
 [ext_resource type="PackedScene" uid="uid://bqadd3sorfe21" path="res://hidingSpots.tscn" id="6_qj8vd"]
 [ext_resource type="Texture2D" uid="uid://cohe1cj8dmhls" path="res://assets/Machine3.png" id="7_bsup6"]
@@ -233,11 +232,6 @@ color = Color(0.623529, 0.572549, 1, 1)
 [node name="HidingSpots" parent="." instance=ExtResource("6_qj8vd")]
 position = Vector2(291, 70)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Sync" type="Node" parent="."]
-script = ExtResource("3_pb5bb")
-
 [node name="Machine3" type="Sprite2D" parent="."]
 position = Vector2(-115, -215)
 texture = ExtResource("7_bsup6")
@@ -264,6 +258,5 @@ position = Vector2(5, -24)
 [connection signal="body_exited" from="Agent/LOS" to="Agent" method="_on_los_body_exited"]
 [connection signal="area_entered" from="Agent/Area2D" to="Agent" method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Agent/Area2D" to="Agent" method="_on_area_2d_area_exited"]
-[connection signal="body_entered" from="Player/Target" to="Agent" method="_on_target_body_entered"]
 [connection signal="body_entered" from="Player/Target" to="Player" method="_on_target_body_entered"]
 [connection signal="body_entered" from="Player/DetectionRad" to="Player" method="_on_detection_rad_body_entered"]

@@ -9,13 +9,16 @@ var quadrant = 0
 
 #-- Methods that need implementing using the "extend script" option in Godot --#
 func get_obs() -> Dictionary:
+
 	var obs := [
 		player.position.x,
 		player.position.y,
 		target.position.x,
-		target.position.y
+		target.position.y,
+		0
 	]
-
+	
+	#obs.append_array(raycast_obs)
 	#assert(false, "the get_obs method is not implemented when extending from ai_controller")
 	return {"obs": obs}
 

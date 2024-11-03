@@ -7,7 +7,6 @@ const JUMP_VELOCITY = -400.0
 
 @export var friction = 0.18
 @export var training = false
-@onready var enemy: CharacterBody2D = $"../Agent"
 @onready var ai_controller: Node2D = $AIController2D
 
 #signals
@@ -60,14 +59,14 @@ func _on_wall_body_entered(body:Node2D):
 func _on_target_body_entered(body:Node2D):
 	if body.name == "Agent" and self.visible:
 		#print("Ran into enemy")
-		ai_controller.reward -= 5.0
-		ai_controller.reset()
+		ai_controller.reward -= 1.0
+		#ai_controller.reset()
 	pass # Replace with function body.
 
 
 func _on_detection_rad_body_entered(body:Node2D):
 	if body.name == "Agent" and self.visible:
-		#print("Detect enemy")
+		print("Detect enemy")
 		ai_controller.reward -= 1.0
 	pass # Replace with function body.
 
