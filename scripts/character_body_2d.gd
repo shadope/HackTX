@@ -10,6 +10,7 @@ var direction
 var search_quad
 var moving_to_quad = false
 var tgt_quad_name = ""
+var tgt_quad
 
 @export var friction = 0.18
 @onready var ai_controller: Node2D = $AIController2D
@@ -45,7 +46,11 @@ func _physics_process(delta):
 	if seen_player:
 		direction = player.position - position
 		#print("Going in dir: ", direction)
-	elif not moving_to_quad:
+	elif moving_to_quad:
+		direction = tgt_quad.position - position
+		if direction.length() < 1.0:
+			moving_to_quad = false
+	else:
 		direction = ai_controller.move
 		#print("Rotating: ", ai_controller.turn_degree)
 		LOS.rotation = ai_controller.turn_degree * 360.0
@@ -88,7 +93,7 @@ func _on_change_quad_timeout():
 	search_quad = ai_controller.quadrant
 	tgt_quad_name = "Quad" + str(ai_controller.quadrant)
 	#print("Parent: ", get_parent())
-	var tgt_quad = get_parent().get_node(tgt_quad_name)
+	tgt_quad = get_parent().get_node(tgt_quad_name)
 	#print("I chose to look in quad: ", tgt_quad)
 	direction = tgt_quad.position - position
 	moving_to_quad = true
@@ -102,7 +107,7 @@ func _on_area_2d_area_entered(area):
 	if "Quad" in area.get_parent().get_groups():
 		#print("Entering a quad")
 		print("my parent's name is: ", area.get_parent().name)
-		if tgt_quad_name == area.get_parent().name:
+		if tgt_quad and tgt_quad.name == area.get_parent().name:
 			print("Entering tgt area")
 			moving_to_quad = false
 	pass # Replace with function body.
@@ -110,7 +115,7 @@ func _on_area_2d_area_entered(area):
 func _on_area_2d_area_exited(area):
 	if "Quad" in area.get_parent().get_groups():
 		#print("Entering a quad")
-		if tgt_quad_name == area.get_parent().name:
+		if tgt_quad and tgt_quad.name == area.get_parent().name:
 			moving_to_quad = true
 	pass # Replace with function body.
 	
